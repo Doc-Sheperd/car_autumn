@@ -93,7 +93,7 @@
     </style>
 </head>
 <body>
-    <h1>CARROS OTOÑO _ TEST 1</h1>
+    <h1>CARROS OTOÑO</h1>
 
     <!-- Botones de control -->
     <div class="button-container">
@@ -136,9 +136,9 @@
             console.log("Conectado al broker MQTT");
 
             // Subscribirse al tema Test/int
-            client.subscribe('Test1', function (err) {
+            client.subscribe('Derek_Car_autumn', function (err) {
                 if (!err) {
-                    console.log("Suscrito a Test1");
+                    console.log("Suscrito a Derek_Car_autumn");
                 } else {
                     console.error("Error al suscribirse: ", err);
                 }
@@ -148,7 +148,7 @@
         // Función para enviar el comando al tema Test1
         function sendMQTT(command) {
             // Se envía el comando en lugar de un número específico
-            client.publish('Test1', command, function (err) {
+            client.publish('Derek_Car_autumn', command, function (err) {
                 if (err) {
                     console.error("Error al publicar: ", err);
                 } else {
@@ -159,8 +159,8 @@
 
         // Escuchar los mensajes que lleguen al tema Test1
         client.on('message', function (topic, message) {
-            if (topic === 'Test1') {
-                console.log("Mensaje recibido en Test1: " + message.toString());
+            if (topic === 'Derek_Car_autumn') {
+                console.log("Mensaje recibido en Derek_Car_autumn: " + message.toString());
                 // Aquí puedes agregar lógica para manejar los mensajes recibidos
             }
         });
