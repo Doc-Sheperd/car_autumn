@@ -148,7 +148,7 @@
         // Función para enviar el comando al tema Test1
         function sendMQTT(command) {
             // Se envía el comando en lugar de un número específico
-            client.publish('Fierroo', command, function (err) {
+            client.publish('Derek_Car_autumn', command, function (err) {
                 if (err) {
                     console.error("Error al publicar: ", err);
                 } else {
@@ -159,8 +159,8 @@
 
         // Escuchar los mensajes que lleguen al tema Test1
         client.on('message', function (topic, message) {
-            if (topic === 'Fierroo') {
-                console.log("Mensaje recibido en Fierroo: " + message.toString());
+            if (topic === 'Derek_Car_autumn') {
+                console.log("Mensaje recibido en Derek_Car_autumn: " + message.toString());
                 // Aquí puedes agregar lógica para manejar los mensajes recibidos
             }
         });
