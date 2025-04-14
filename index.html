@@ -190,6 +190,37 @@ border:0px solid;
             </div>
         </section>
 
+    <!-- Botones de control -->
+   <div class="button-container">
+        <!-- Botones en forma de cruz -->
+        <div class="cross-buttons">
+            <button onclick="sendMQTT('1')">Adelante</button>
+            <div class="button">
+                <button onclick="sendMQTT('2')">Izquierda</button>
+                <button onclick="sendMQTT('4')">Derecha</button>
+            </div>
+            <button onclick="sendMQTT('3')">Atrás</button>
+            <button onclick="sendMQTT('15')">Alto</button>
+        </div>
+
+        <!-- Menú desplegable -->
+        <div class="dropdown">
+            <button>Más controles</button>
+            <div class="dropdown-content">
+                <button onclick="sendMQTT('5')">Diag_1</button>
+                <button onclick="sendMQTT('6')">Diag_2</button>
+                <button onclick="sendMQTT('7')">Diag_3</button>
+                <button onclick="sendMQTT('8')">Diag_4</button>
+                <button onclick="sendMQTT('9')">Rodeo_R</button>
+                <button onclick="sendMQTT('10')">Rodeo_L</button>
+                <button onclick="sendMQTT('11')">Giro_R</button>
+                <button onclick="sendMQTT('12')">Giro_L</button>
+                <button onclick="sendMQTT('13')">Vuelta_R</button>
+                <button onclick="sendMQTT('14')">Vuelta_L</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Configuración del broker MQTT
         const brokerUrl = "wss://broker.emqx.io:8084/mqtt";  // WebSocket en puerto 8084
