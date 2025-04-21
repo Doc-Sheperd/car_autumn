@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carro 1 | Ibero Puebla</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
+    <style>
+        body {
+            background-color: #F9F5E8; /* Beige suave */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .cross-buttons {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .cross-buttons button {
+            padding: 20px;
+            font-size: 1.2em;
+            background-color: #d8cfc4;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .cross-buttons button:active {
+            transform: scale(1.1);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #d8cfc4;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content button {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            background-color: #d8cfc4;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #e6e6e1;
+        }
+
+        /* Animación de rebote */
+        @keyframes rebote {
+            0% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+            50% { transform: translateY(0); }
+            70% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        button {
+            animation: rebote 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>CARROS OTOÑO</h1>
+
+    <!-- Botones de control -->
+    <div class="button-container">
+        <!-- Botones en forma de cruz -->
+        <div class="cross-buttons">
+            <button onclick="sendMQTT('1')">Adelante</button>
+            <div class="button">
+                <button onclick="sendMQTT('2')">Izquierda</button>
+                <button onclick="sendMQTT('4')">Derecha</button>
+            </div>
+            <button onclick="sendMQTT('3')">Atrás</button>
+            <button onclick="sendMQTT('15')">Alto</button>
+        </div>
+
+        <!-- Menú desplegable -->
+        <div class="dropdown">
+            <button>Más controles</button>
+            <div class="dropdown-content">
+                <button onclick="sendMQTT('5')">Diag_1</button>
+                <button onclick="sendMQTT('6')">Diag_2</button>
+                <button onclick="sendMQTT('7')">Diag_3</button>
+                <button onclick="sendMQTT('8')">Diag_4</button>
+                <button onclick="sendMQTT('9')">Rodeo_R</button>
+                <button onclick="sendMQTT('10')">Rodeo_L</button>
+                <button onclick="sendMQTT('11')">Giro_R</button>
+                <button onclick="sendMQTT('12')">Giro_L</button>
+                <button onclick="sendMQTT('13')">Vuelta_R</button>
+                <button onclick="sendMQTT('14')">Vuelta_L</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración del broker MQTT
+        const brokerUrl = "wss://broker.emqx.io:8084/mqtt";  // WebSocket en puerto 8084
+        const client = mqtt.connect(brokerUrl);
+
+        // Función que se llama cuando la conexión MQTT es exitosa
+        client.on('connect', function () {
+            console.log("Conectado al broker MQTT");
+
+            // Subscribirse al tema Test/int
+            client.subscribe('Derek_Car_1', function (err) {
+                if (!err) {
+                    console.log("Suscrito a Derek_Car_1");
+                } else {
+                    console.error("Error al suscribirse: ", err);
+                }
+            });
+        });
+
+        // Función para enviar el comando al tema Test1
+        function sendMQTT(command) {
+            // Se envía el comando en lugar de un número específico
+            client.publish('Derek_Car_1', command, function (err) {
+                if (err) {
+                    console.error("Error al publicar: ", err);
+                } else {
+                    console.log("Comando enviado:", command);
+                }
+            });
+        }
+
+        // Escuchar los mensajes que lleguen al tema Test1
+        client.on('message', function (topic, message) {
+            if (topic === 'Derek_Car_1') {
+                console.log("Mensaje recibido en Derek_Car_1: " + message.toString());
+                // Aquí puedes agregar lógica para manejar los mensajes recibidos
+            }
+        });
+    </script>
+</body>
+</html>
